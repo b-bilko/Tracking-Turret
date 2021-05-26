@@ -32,6 +32,21 @@ def turret_img():
         #img[:,:,1] = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img[:,:,0] = 0
         img[:,:,2] = 0
+
+    if turret.override_motion:
+        # Draw crosshairs for target
+        center = (int(img.shape[1]*(turret.stepper_x.target / turret.motor_range[0] +1)/2),
+                  int(img.shape[0]*(turret.stepper_y.target / turret.motor_range[1] +1)/2))
+        cv2.circle(img, center, 15, (240, 240, 0), 1)
+        cv2.line(img, (center[0]-24, center[1]), (center[0]+24, center[1]), (240, 240, 0), 1)
+        cv2.line(img, (center[0], center[1]-24), (center[0], center[1]+24), (240, 240, 0), 1)
+
+    center = (int(img.shape[1]*(turret.stepper_x.pos / turret.motor_range[0] +1)/2),
+                int(img.shape[0]*(turret.stepper_y.pos / turret.motor_range[1] +1)/2))
+    cv2.circle(img, center, 15, (0, 240, 240), 1)
+    cv2.line(img, (center[0]-24, center[1]), (center[0]+24, center[1]), (0, 240, 240), 1)
+    cv2.line(img, (center[0], center[1]-24), (center[0], center[1]+24), (0, 240, 240), 1)
+
     _, png = cv2.imencode(".png", img)
     response = flask.make_response(png.tobytes())
     response.headers["Content-Type"] = "image/png"
