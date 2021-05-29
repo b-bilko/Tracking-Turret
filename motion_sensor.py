@@ -167,7 +167,6 @@ class MotionSensor(object):
                     self.static_count = 0   # Motion detected, try set recent to current
                     recent = gray
 
-
         finally:
             # cleanup the camera and close any open windows
             self.camera.release()

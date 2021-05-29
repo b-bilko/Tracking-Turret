@@ -27,3 +27,6 @@ STEPPER_DELAY = 0
     # Delay between steps in s.
 
 SHOW_VIDEO = False
+
+IMG_FOLDER = False
+IMG_LIMIT = 100

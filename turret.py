@@ -10,14 +10,14 @@ except:
 from motion_sensor import MotionSensor
 import atexit
 import dummy
-
 class Turret(object):
     def __init__(self, motor_range,
             steppers,
             friendly_mode=True,
             trigger_pin = None,
             micro_pins = None, micro_pos = None,
-            show_video = False):
+            show_video = False,
+            logger = False):
         global has_motors
         
         self.friendly_mode = friendly_mode
@@ -29,6 +29,8 @@ class Turret(object):
         self.stepper_y = steppers[1]
 
         self.override_motion = False
+
+        self.logger = logger
             
         atexit.register(self.__turn_off_motors)
 
@@ -68,11 +70,16 @@ class Turret(object):
             self.stepper_y.set_target(target_steps_y)
             self.gun.set_fire_on_target(True)
 
+        if self.logger:
+            self.logger.consider_img(frame, True)
+
     def __on_no_motion(self, frame):
         if not self.override_motion:
             self.stepper_x.set_target(0)
             self.stepper_y.set_target(0)
-            self.gun.set_fire_on_target(False)
+            
+        if self.logger:
+            self.logger.consider_img(frame, False)
 
     def __turn_off_motors(self):
         # TODO: FIX THIS

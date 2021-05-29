@@ -7,6 +7,7 @@ except:
     print("*************************************************************************************************************")
     sys.exit()
 from turret import Turret
+from image_log import ImageLogger
 
 def create():
     if STEPPER_CONFIG == ADA_FRUIT_STEPPERS:
@@ -30,7 +31,8 @@ def create():
         trigger_pin = TRIGGER_PIN,
         micro_pins = MICRO_PINS, micro_pos = MICRO_POS,
         motor_range = MOTORS_RANGE,
-        show_video = SHOW_VIDEO)
+        show_video = SHOW_VIDEO,
+        logger = ImageLogger(IMG_FOLDER, IMG_LIMIT) if IMG_FOLDER else False)
     return turret
 
 def start(turret):
