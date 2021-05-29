@@ -47,7 +47,7 @@ class Gun(object):
 
     def __loop(self):
         while not self.end:
-            self.firing = not self.friendly and self.fire_on_target and self.on_target()
+            self.firing = not self.friendly and self.fire_on_target and self.on_target
             time.sleep(1)
             
     def __end(self):

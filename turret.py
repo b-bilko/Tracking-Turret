@@ -71,7 +71,7 @@ class Turret(object):
             self.gun.set_fire_on_target(True)
 
         if self.logger:
-            self.logger.consider_img(frame, True)
+            self.logger.consider_img(frame, True, self.motion_sensor.state, self.gun.firing)
 
     def __on_no_motion(self, frame):
         if not self.override_motion:
@@ -79,7 +79,7 @@ class Turret(object):
             self.stepper_y.set_target(0)
             
         if self.logger:
-            self.logger.consider_img(frame, False)
+            self.logger.consider_img(frame, False, self.motion_sensor.state, False)
 
     def __turn_off_motors(self):
         # TODO: FIX THIS
