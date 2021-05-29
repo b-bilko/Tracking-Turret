@@ -5,13 +5,15 @@ import os
 import motion_sensor
 
 class ImageLogger(object):
-    def __init__(self, folder, limit, min_time = timedelta(seconds=3)):
+    def __init__(self, folder, limit, min_time = timedelta(seconds=1)):
         self.folder = folder
         self.limit = limit
         self.min_time = min_time
         self.prev = datetime.min
         self.first = True
         self.busy = False
+
+        self.file_count = len(os.listdir(folder))
 
     def consider_img(self, img, motion, motion_sensor_state, firing):
         if motion_sensor_state == motion_sensor.MotionSensor.TRACKING:
@@ -26,7 +28,7 @@ class ImageLogger(object):
             else:
                 log = False
 
-            if log and not self.busy:
+            if log and not self.busy and self.file_count < self.limit:
                 self.busy = True
                 thread = threading.Thread(target = self.save_img, args=(img, self.last))
                 thread.run()
@@ -34,6 +36,7 @@ class ImageLogger(object):
     def save_img(self, img, reason):
         now = datetime.now()
         if now - self.prev > self.min_time:
+            self.file_count += 1
             self.prev = now
             cv2.imwrite(os.path.join(self.folder, now.strftime("%Y%m%d%H%M%S.REASON.png").replace("REASON", reason)), img)
         self.busy = False
