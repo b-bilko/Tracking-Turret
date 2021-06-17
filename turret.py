@@ -48,8 +48,8 @@ class Turret(object):
         else:
             print("Calibrating...")
             t_x = self.stepper_x.calibrate(self.micro_pins[0], self.micro_pos[0])
-            t_y = self.stepper_y.calibrate(self.micro_pins[1], self.micro_pos[1])
             t_x.join()
+            t_y = self.stepper_y.calibrate(self.micro_pins[1], self.micro_pos[1])
             t_y.join()
 
     def motion_detection(self):

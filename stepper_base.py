@@ -55,7 +55,7 @@ class StepperReal(StepperBase):
         StepperBase.__init__(self, name, reverse=reverse)
         
     def calibrate(self, micro_pin, micro_pos):
-        thread = threading.Thread(target=self.__calibrate_run, args=(micro_pin, micro_pos))
+        thread = threading.Thread(target=self.__calibrate_run, args=(micro_pin, micro_pos), daemon=True)
         thread.start()
         return thread
         
