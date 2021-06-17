@@ -1,6 +1,7 @@
 import atexit
 import time
 import threading
+import RPi.GPIO as GPIO
 
 class StepperBase(object):
     def __init__(self, name, reverse = False):
