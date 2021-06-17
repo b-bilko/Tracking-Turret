@@ -61,6 +61,7 @@ class StepperReal(StepperBase):
         
     def __calibrate_run(self, micro_pin, micro_pos):
         GPIO.setup(micro_pin, GPIO.IN)
+        dir = 1 if micro_pos > 0 else -1
         while not GPIO.input(micro_pin):
-            self.step(-1)
+            self.step(dir)
         self.pos = micro_pos
